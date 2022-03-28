@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block nsdk %}
+
+<section class="content">
+    <div id="container" style="height: 80%; width: 100%; float: center"></div>
+    <script type="text/javascript" src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+    <script type="text/javascript">
+        var data = { data | safe };
+        console.log(data);
+    </script>
+</section>
+
+{% endblock %}

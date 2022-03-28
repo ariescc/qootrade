@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+       <link href="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/css/adminlte.css" rel="stylesheet">
+       <link href="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/css/adminlte.min.css" rel="stylesheet">
+       <link href="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.components.css" rel="stylesheet">
+       <link href="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.components.min.css" rel="stylesheet">
+       <link href="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.core.css" rel="stylesheet">
+       <link href="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.core.min.css" rel="stylesheet">
+       <link href="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.extra-components.css" rel="stylesheet">
+       <link href="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.extra-components.min.css" rel="stylesheet">
+       <link href="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.pages.css" rel="stylesheet">
+       <link href="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.pages.min.css" rel="stylesheet">
+       <link href="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.plugins.css" rel="stylesheet">
+       <link href="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/css/alt/adminlte.plugins.min.css" rel="stylesheet">
+       <script src="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/js/adminlte.js"></script>
+       <script src="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/js/adminlte.min.js"></script>
+       <script src="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/js/demo.js"></script>
+       <script src="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/js/demo.min.js"></script>
+       <script src="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/js/pages/dashboard.js"></script>
+       <script src="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/js/pages/dashboard.min.js"></script>
+       <script src="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/js/pages/dashboard2.js"></script>
+       <script src="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/js/pages/dashboard2.min.js"></script>
+       <script src="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/js/pages/dashboard3.js"></script>
+       <script src="https://cdn.bootcdn.net/ajax/libs/admin-lte/3.0.5/js/pages/dashboard3.min.js"></script>
+   </head>
+   <body style="height: 100%; margin: 0">
+        <div class="wrapper" style="height: auto; min-height: 100%;">
+           <div id="container" style="float:left;height:100%;width: 50%;"></div>
+           <div id="container1" style="background:#000001;float:right;height:100%;width: 50%;"></div>
+           <br><br><br><hr><br><br>
+           <div id="container2" style="float:left;height:100%;width: 50%;"></div>
+           <div id="container3" style="background:#000001;float:right;height:100%;width: 50%;"></div>
+           <br><br><br><hr><br><br>
+           <div id="container4" style="float:left;height:100%;width: 50%;"></div>
+           <div id="container5" style="background:#000001;float:right;height:100%;width: 50%;"></div>
+           <br><br><br><hr><br><br>
+           <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+           <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+           <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+           <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+           <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+           <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+           <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+           <script type="text/javascript">
+                var dom = document.getElementById("container");
+                var dom1 = document.getElementById("container1");
+                var dom2 = document.getElementById("container2");
+                var dom3 = document.getElementById("container3");
+                var dom4 = document.getElementById("container4");
+                var dom5 = document.getElementById("container5");
+                var myChart = echarts.init(dom);
+                var myChart1 = echarts.init(dom1);
+                var myChart2 = echarts.init(dom2);
+                var myChart3 = echarts.init(dom3);
+                var myChart4 = echarts.init(dom4);
+                var myChart5 = echarts.init(dom5);
+                var app = {};
+                var dicz = {{dicz|safe}};
+                var dicf = {{dicf|safe}};
+                var dic5z = {{dic5z|safe}};
+                var dic5f = {{dic5f|safe}};
+                var dic10z = {{dic10z|safe}};
+                var dic10f = {{dic10f|safe}};
+                var xdataz = []
+                var xdataf = []
+                var xdata5z = []
+                var xdata5f = []
+                var xdata10z = []
+                var xdata10f = []
+                var dtz = []
+                var dtf = []
+                var dt5z = []
+                var dt5f = []
+                var dt10z = []
+                var dt10f = []
+                for(var key in dicz) {
+                    xdataz.push(key)
+                    dtz.push({
+                        value: dicz[key],
+                        name: key
+                    });
+                }
+
+                for(var key in dicf) {
+                    xdataf.push(key);
+                    dtf.push({
+                        value: -dicf[key],
+                        name: key
+                    });
+                }
+
+                for(var key in dic5z) {
+                    xdata5z.push(key);
+                    dt5z.push({
+                        value: dic5z[key],
+                        name: key
+                    });
+                }
+
+                for(var key in dic5f) {
+                    xdata5f.push(key);
+                    dt5f.push({
+                        value: -dic5f[key],
+                        name: key
+                    });
+                }
+
+                for(var key in dic10z) {
+                    xdata10z.push(key);
+                    dt10z.push({
+                        value: dic10z[key],
+                        name: key
+                    });
+                }
+
+                for(var key in dic10f) {
+                    xdata10f.push(key);
+                    dt10f.push({
+                        value: -dic10f[key],
+                        name: key
+                    });
+                }
+
+                option = null;
+                option1 = null;
+                option2 = null;
+                option3 = null;
+                option4 = null;
+                option5 = null;
+                option = {
+                    title: {
+                        text: '当日板块资金流入',
+                        left: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    },
+                    legend: {
+                        left: 'center',
+                        top: 'bottom',
+                        data: xdataz
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {show: true},
+                            dataView: {show: true, readOnly: false},
+                            magicType: {
+                                show: true,
+                                type: ['pie', 'funnel']
+                            },
+                            restore: {show: true},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    series: [
+                        {
+                            name: '当日板块资金净流入',
+                            type: 'pie',
+                            radius: [30, 410],
+                            center: ['55%', '50%'],
+                            roseType: 'area',
+                            data: dtz
+                        }
+                    ]
+                };
+
+                option1 = {
+                    title: {
+                        text: '当日板块资金流出',
+                        left: 'center',
+                        textStyle: {
+                            color: 'white'
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    },
+                    legend: {
+                        left: 'center',
+                        top: 'bottom',
+                        data: xdataf,
+                        textStyle: {
+                            color: 'white'
+                        }
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {show: true},
+                            dataView: {show: true, readOnly: false},
+                            magicType: {
+                                show: true,
+                                type: ['pie', 'funnel']
+                            },
+                            restore: {show: true},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    series: [
+                        {
+                            name: '当日板块资金净流出',
+                            type: 'pie',
+                            radius: [30, 410],
+                            center: ['55%', '50%'],
+                            roseType: 'area',
+                            label: {
+                                show: true
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true
+                                }
+                            },
+                            data: dtf
+                        }
+                    ]
+                };
+
+                option2 = {
+                    title: {
+                        text: '5日板块资金流入',
+                        left: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    },
+                    legend: {
+                        left: 'center',
+                        top: 'bottom',
+                        data: xdata5z
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {show: true},
+                            dataView: {show: true, readOnly: false},
+                            magicType: {
+                                show: true,
+                                type: ['pie', 'funnel']
+                            },
+                            restore: {show: true},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    series: [
+                        {
+                            name: '5日板块资金净流入',
+                            type: 'pie',
+                            radius: [30, 410],
+                            center: ['55%', '50%'],
+                            roseType: 'area',
+                            data: dt5z
+                        }
+                    ]
+                };
+
+                option3 = {
+                    title: {
+                        text: '5日板块资金流出',
+                        left: 'center',
+                        textStyle: {
+                            color: 'white'
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    },
+                    legend: {
+                        left: 'center',
+                        top: 'bottom',
+                        data: xdata5f,
+                        textStyle: {
+                            color: 'white'
+                        }
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {show: true},
+                            dataView: {show: true, readOnly: false},
+                            magicType: {
+                                show: true,
+                                type: ['pie', 'funnel']
+                            },
+                            restore: {show: true},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    series: [
+                        {
+                            name: '5日板块资金净流出',
+                            type: 'pie',
+                            radius: [30, 410],
+                            center: ['55%', '50%'],
+                            roseType: 'area',
+                            label: {
+                                show: true
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true
+                                }
+                            },
+                            data: dt5f
+                        }
+                    ]
+                };
+
+                option4 = {
+                    title: {
+                        text: '10日板块资金流入',
+                        left: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    },
+                    legend: {
+                        left: 'center',
+                        top: 'bottom',
+                        data: xdata10z
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {show: true},
+                            dataView: {show: true, readOnly: false},
+                            magicType: {
+                                show: true,
+                                type: ['pie', 'funnel']
+                            },
+                            restore: {show: true},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    series: [
+                        {
+                            name: '10日板块资金净流入',
+                            type: 'pie',
+                            radius: [30, 410],
+                            center: ['55%', '50%'],
+                            roseType: 'area',
+                            data: dt10z
+                        }
+                    ]
+                };
+
+                option5 = {
+                    title: {
+                        text: '10日板块资金流出',
+                        left: 'center',
+                        textStyle: {
+                            color: 'white'
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    },
+                    legend: {
+                        left: 'center',
+                        top: 'bottom',
+                        data: xdata10f,
+                        textStyle: {
+                            color: 'white'
+                        }
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {show: true},
+                            dataView: {show: true, readOnly: false},
+                            magicType: {
+                                show: true,
+                                type: ['pie', 'funnel']
+                            },
+                            restore: {show: true},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    series: [
+                        {
+                            name: '10日板块资金净流出',
+                            type: 'pie',
+                            radius: [30, 410],
+                            center: ['55%', '50%'],
+                            roseType: 'area',
+                            label: {
+                                show: true
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true
+                                }
+                            },
+                            data: dt10f
+                        }
+                    ]
+                };
+
+                if (option && typeof option === "object") {
+                    myChart.setOption(option, true);
+                }
+
+                if (option1 && typeof option1 === "object") {
+                    myChart1.setOption(option1, true);
+                }
+
+                if (option2 && typeof option2 === "object") {
+                    myChart2.setOption(option2, true);
+                }
+
+                if (option3 && typeof option3 === "object") {
+                    myChart3.setOption(option3, true);
+                }
+
+                if (option4 && typeof option4 === "object") {
+                    myChart4.setOption(option4, true);
+                }
+
+                if (option5 && typeof option5 === "object") {
+                    myChart5.setOption(option5, true);
+                }
+           </script>
+        </div>
+   </body>
+</html>

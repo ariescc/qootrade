@@ -1,0 +1,928 @@
+{% extends "base.html" %}
+
+{% block stockindex %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-info">
+                    <div class="card-header">
+                        <div class="row">
+                            <div>
+                                <svg class="icon" aria-hidden="true">
+                                    <use xlink:href="#icon-zhongguo"></use>
+                                </svg>
+                            </div>
+                            <div class="col-md-10">
+                                <h3 class="card-title">上证指数(SSEC)</h3>
+                            </div>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div id="container_china" style="min-height: 250px; height: 600px; max-height: 600px; max-width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-info">
+                    <div class="card-header">
+                        <div class="row">
+                            <div>
+                                <svg class="icon" aria-hidden="true">
+                                    <use xlink:href="#icon-yingguo"></use>
+                                </svg>
+                            </div>
+                            <div class="col-md-10">
+                                <h3 class="card-title">英国富时100指数 (FTSE)</h3>
+                            </div>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div id="container_eng" style="min-height: 250px; height: 600px; max-height: 600px; max-width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-info">
+                    <div class="card-header">
+                        <div class="row">
+                            <div>
+                                <svg class="icon" aria-hidden="true">
+                                    <use xlink:href="#icon-eluosi"></use>
+                                </svg>
+                            </div>
+                            <div class="col-md-10">
+                                <h3 class="card-title">俄罗斯MOEX Russia指数 (IMOEX)</h3>
+                            </div>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div id="container_russia" style="min-height: 250px; height: 600px; max-height: 600px; max-width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card card-info">
+                    <div class="card-header">
+                        <div class="row">
+                            <div>
+                                <svg class="icon" aria-hidden="true">
+                                    <use xlink:href="#icon-meiguo"></use>
+                                </svg>
+                            </div>
+                            <div class="col-md-10">
+                                <h3 class="card-title">纳斯达克100指数 (NDX)</h3>
+                            </div>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div id="container_usa" style="min-height: 250px; height: 600px; max-height: 600px; max-width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-info">
+                    <div class="card-header">
+                        <div class="row">
+                            <div>
+                                <svg class="icon" aria-hidden="true">
+                                    <use xlink:href="#icon-riben"></use>
+                                </svg>
+                            </div>
+                            <div class="col-md-10">
+                                <h3 class="card-title">日经225指数 (N225)</h3>
+                            </div>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div id="container_japan" style="min-height: 250px; height: 600px; max-height: 600px; max-width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-info">
+                    <div class="card-header">
+                        <div class="row">
+                            <div>
+                                <svg class="icon" aria-hidden="true">
+                                    <use xlink:href="#icon-baxi"></use>
+                                </svg>
+                            </div>
+                            <div class="col-md-10">
+                                <h3 class="card-title">巴西IBOVESPA股指 (BVSP)</h3>
+                            </div>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div id="container_brazil" style="min-height: 250px; height: 600px; max-height: 600px; max-width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+ <script type="text/javascript">
+
+    var china = {{ china | safe }};
+    console.log(china);
+    var usa = {{ usa | safe }};
+    console.log(usa);
+    var brazil = {{ brazil | safe }};
+    var japan = {{ japan | safe }};
+    var italy = {{ italy | safe }};
+    var australia = {{ australia | safe }};
+    var eng = {{ eng | safe }};
+    var france = {{ france | safe }};
+    var germany = {{ germany | safe }};
+    var korea = {{ korea | safe }};
+    var russia = {{ russia | safe }};
+    var canada = {{ canada | safe }};
+
+    var upColor = '#ec0000';
+    var upBorderColor = '#8A0000';
+    var downColor = '#00da3c';
+    var downBorderColor = '#008F28';
+
+    function splitData(rawData) {
+        var categoryData = [];
+        var values = []
+        for (var i = 0; i < rawData.length; i++) {
+            categoryData.push(rawData[i].splice(0, 1)[0]);
+            values.push(rawData[i])
+        }
+        return {
+            categoryData: categoryData,
+            values: values
+        };
+    }
+
+    function calculateMA(data0,dayCount) {
+        var result = [];
+        for (var i = 0, len = data0.values.length; i < len; i++) {
+            if (i < dayCount) {
+                result.push('-');
+                continue;
+            }
+            var sum = 0;
+            for (var j = 0; j < dayCount; j++) {
+                sum += data0.values[i - j][1];
+            }
+            result.push(sum / dayCount);
+        }
+        return result;
+    }
+
+// ------------------------------------------------------------------------------------------------
+
+    var dom_china = document.getElementById("container_china");
+    var myChart_china = echarts.init(dom_china);
+    var app_china = {};
+    option_china = null;
+
+
+
+    // 数据意义：开盘(open)，收盘(close)，最低(lowest)，最高(highest)
+    var data_china = splitData(china);
+    console.log('china',data_china);
+
+
+
+
+
+
+    option_china = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross'
+            }
+        },
+        legend: {
+            data: ['日K', 'MA5', 'MA10', 'MA20', 'MA30']
+        },
+        grid: {
+            left: '10%',
+            right: '10%',
+            bottom: '15%'
+        },
+        xAxis: {
+            type: 'category',
+            data: data_china.categoryData,
+            scale: true,
+            boundaryGap: false,
+            axisLine: {onZero: false},
+            splitLine: {show: false},
+            splitNumber: 20,
+            min: 'dataMin',
+            max: 'dataMax'
+        },
+        yAxis: {
+            scale: true,
+            splitArea: {
+                show: true
+            }
+        },
+        dataZoom: [
+            {
+                type: 'inside',
+                start: 50,
+                end: 100
+            },
+            {
+                show: true,
+                type: 'slider',
+                top: '90%',
+                start: 50,
+                end: 100
+            }
+        ],
+        series: [
+            {
+                name: '日K',
+                type: 'candlestick',
+                data: data_china.values,
+                itemStyle: {
+                    color: upColor,
+                    color0: downColor,
+                    borderColor: upBorderColor,
+                    borderColor0: downBorderColor
+                },
+            },
+            {
+                name: 'MA5',
+                type: 'line',
+                data: calculateMA(data_china, 5),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+            {
+                name: 'MA10',
+                type: 'line',
+                data: calculateMA(data_china, 10),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+            {
+                name: 'MA20',
+                type: 'line',
+                data: calculateMA(data_china, 20),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+            {
+                name: 'MA30',
+                type: 'line',
+                data: calculateMA(data_china, 30),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+
+        ]
+    };
+
+    ;
+    if (option_china && typeof option_china === "object") {
+        myChart_china.setOption(option_china, true);
+    }
+
+// ------------------------------------------------------------------------------
+
+var dom_usa = document.getElementById("container_usa");
+    var myChart_usa = echarts.init(dom_usa);
+    var app_usa = {};
+    option_usa = null;
+
+
+
+    // 数据意义：开盘(open)，收盘(close)，最低(lowest)，最高(highest)
+    var data_usa = splitData(usa);
+    console.log(data_usa);
+
+
+    option_usa = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross'
+            }
+        },
+        legend: {
+            data: ['日K', 'MA5', 'MA10', 'MA20', 'MA30']
+        },
+        grid: {
+            left: '10%',
+            right: '10%',
+            bottom: '15%'
+        },
+        xAxis: {
+            type: 'category',
+            data: data_usa.categoryData,
+            scale: true,
+            boundaryGap: false,
+            axisLine: {onZero: false},
+            splitLine: {show: false},
+            splitNumber: 20,
+            min: 'dataMin',
+            max: 'dataMax'
+        },
+        yAxis: {
+            scale: true,
+            splitArea: {
+                show: true
+            }
+        },
+        dataZoom: [
+            {
+                type: 'inside',
+                start: 50,
+                end: 100
+            },
+            {
+                show: true,
+                type: 'slider',
+                top: '90%',
+                start: 50,
+                end: 100
+            }
+        ],
+        series: [
+            {
+                name: '日K',
+                type: 'candlestick',
+                data: data_usa.values,
+                itemStyle: {
+                    color: upColor,
+                    color0: downColor,
+                    borderColor: upBorderColor,
+                    borderColor0: downBorderColor
+                },
+            },
+            {
+                name: 'MA5',
+                type: 'line',
+                data: calculateMA(data_usa, 5),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+            {
+                name: 'MA10',
+                type: 'line',
+                data: calculateMA(data_usa, 10),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+            {
+                name: 'MA20',
+                type: 'line',
+                data: calculateMA(data_usa, 20),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+            {
+                name: 'MA30',
+                type: 'line',
+                data: calculateMA(data_usa, 30),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+
+        ]
+    };
+
+    ;
+    if (option_usa && typeof option_usa === "object") {
+        myChart_usa.setOption(option_usa, true);
+    }
+
+
+// ------------------------------------------------------------------------------
+
+var dom_brazil = document.getElementById("container_brazil");
+    var myChart_brazil = echarts.init(dom_brazil);
+    var app_brazil = {};
+    option_brazil = null;
+
+
+
+    // 数据意义：开盘(open)，收盘(close)，最低(lowest)，最高(highest)
+    var data_brazil = splitData(brazil);
+    console.log(data_brazil);
+
+
+    option_brazil = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross'
+            }
+        },
+        legend: {
+            data: ['日K', 'MA5', 'MA10', 'MA20', 'MA30']
+        },
+        grid: {
+            left: '10%',
+            right: '10%',
+            bottom: '15%'
+        },
+        xAxis: {
+            type: 'category',
+            data: data_brazil.categoryData,
+            scale: true,
+            boundaryGap: false,
+            axisLine: {onZero: false},
+            splitLine: {show: false},
+            splitNumber: 20,
+            min: 'dataMin',
+            max: 'dataMax'
+        },
+        yAxis: {
+            scale: true,
+            splitArea: {
+                show: true
+            }
+        },
+        dataZoom: [
+            {
+                type: 'inside',
+                start: 50,
+                end: 100
+            },
+            {
+                show: true,
+                type: 'slider',
+                top: '90%',
+                start: 50,
+                end: 100
+            }
+        ],
+        series: [
+            {
+                name: '日K',
+                type: 'candlestick',
+                data: data_brazil.values,
+                itemStyle: {
+                    color: upColor,
+                    color0: downColor,
+                    borderColor: upBorderColor,
+                    borderColor0: downBorderColor
+                },
+            },
+            {
+                name: 'MA5',
+                type: 'line',
+                data: calculateMA(data_brazil, 5),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+            {
+                name: 'MA10',
+                type: 'line',
+                data: calculateMA(data_brazil, 10),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+            {
+                name: 'MA20',
+                type: 'line',
+                data: calculateMA(data_brazil, 20),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+            {
+                name: 'MA30',
+                type: 'line',
+                data: calculateMA(data_brazil, 30),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+
+        ]
+    };
+
+    ;
+    if (option_brazil && typeof option_brazil === "object") {
+        myChart_brazil.setOption(option_brazil, true);
+    }
+
+// ------------------------------------------------------------------------------
+
+var dom_japan = document.getElementById("container_japan");
+    var myChart_japan = echarts.init(dom_japan);
+    var app_japan = {};
+    option_japan = null;
+
+
+
+    // 数据意义：开盘(open)，收盘(close)，最低(lowest)，最高(highest)
+    var data_japan = splitData(japan);
+    console.log(data_japan);
+
+
+    option_japan = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross'
+            }
+        },
+        legend: {
+            data: ['日K', 'MA5', 'MA10', 'MA20', 'MA30']
+        },
+        grid: {
+            left: '10%',
+            right: '10%',
+            bottom: '15%'
+        },
+        xAxis: {
+            type: 'category',
+            data: data_japan.categoryData,
+            scale: true,
+            boundaryGap: false,
+            axisLine: {onZero: false},
+            splitLine: {show: false},
+            splitNumber: 20,
+            min: 'dataMin',
+            max: 'dataMax'
+        },
+        yAxis: {
+            scale: true,
+            splitArea: {
+                show: true
+            }
+        },
+        dataZoom: [
+            {
+                type: 'inside',
+                start: 50,
+                end: 100
+            },
+            {
+                show: true,
+                type: 'slider',
+                top: '90%',
+                start: 50,
+                end: 100
+            }
+        ],
+        series: [
+            {
+                name: '日K',
+                type: 'candlestick',
+                data: data_japan.values,
+                itemStyle: {
+                    color: upColor,
+                    color0: downColor,
+                    borderColor: upBorderColor,
+                    borderColor0: downBorderColor
+                },
+            },
+            {
+                name: 'MA5',
+                type: 'line',
+                data: calculateMA(data_japan, 5),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+            {
+                name: 'MA10',
+                type: 'line',
+                data: calculateMA(data_japan, 10),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+            {
+                name: 'MA20',
+                type: 'line',
+                data: calculateMA(data_japan, 20),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+            {
+                name: 'MA30',
+                type: 'line',
+                data: calculateMA(data_japan, 30),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+
+        ]
+    };
+
+    ;
+    if (option_japan && typeof option_japan === "object") {
+        myChart_japan.setOption(option_japan, true);
+    }
+
+// ------------------------------------------------------------------------------
+
+var dom_eng = document.getElementById("container_eng");
+    var myChart_eng = echarts.init(dom_eng);
+    var app_eng = {};
+    option_eng = null;
+
+
+
+    // 数据意义：开盘(open)，收盘(close)，最低(lowest)，最高(highest)
+    var data_eng = splitData(eng);
+    console.log(data_eng);
+
+
+    option_eng = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross'
+            }
+        },
+        legend: {
+            data: ['日K', 'MA5', 'MA10', 'MA20', 'MA30']
+        },
+        grid: {
+            left: '10%',
+            right: '10%',
+            bottom: '15%'
+        },
+        xAxis: {
+            type: 'category',
+            data: data_eng.categoryData,
+            scale: true,
+            boundaryGap: false,
+            axisLine: {onZero: false},
+            splitLine: {show: false},
+            splitNumber: 20,
+            min: 'dataMin',
+            max: 'dataMax'
+        },
+        yAxis: {
+            scale: true,
+            splitArea: {
+                show: true
+            }
+        },
+        dataZoom: [
+            {
+                type: 'inside',
+                start: 50,
+                end: 100
+            },
+            {
+                show: true,
+                type: 'slider',
+                top: '90%',
+                start: 50,
+                end: 100
+            }
+        ],
+        series: [
+            {
+                name: '日K',
+                type: 'candlestick',
+                data: data_eng.values,
+                itemStyle: {
+                    color: upColor,
+                    color0: downColor,
+                    borderColor: upBorderColor,
+                    borderColor0: downBorderColor
+                },
+            },
+            {
+                name: 'MA5',
+                type: 'line',
+                data: calculateMA(data_eng, 5),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+            {
+                name: 'MA10',
+                type: 'line',
+                data: calculateMA(data_eng, 10),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+            {
+                name: 'MA20',
+                type: 'line',
+                data: calculateMA(data_eng, 20),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+            {
+                name: 'MA30',
+                type: 'line',
+                data: calculateMA(data_eng, 30),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+
+        ]
+    };
+
+    ;
+    if (option_eng && typeof option_eng === "object") {
+        myChart_eng.setOption(option_eng, true);
+    }
+
+// ------------------------------------------------------------------------------
+
+var dom_russia = document.getElementById("container_russia");
+    var myChart_russia = echarts.init(dom_russia);
+    var app_russia = {};
+    option_russia = null;
+
+
+
+    // 数据意义：开盘(open)，收盘(close)，最低(lowest)，最高(highest)
+    var data_russia = splitData(russia);
+    console.log(data_russia);
+
+
+    option_russia = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross'
+            }
+        },
+        legend: {
+            data: ['日K', 'MA5', 'MA10', 'MA20', 'MA30']
+        },
+        grid: {
+            left: '10%',
+            right: '10%',
+            bottom: '15%'
+        },
+        xAxis: {
+            type: 'category',
+            data: data_russia.categoryData,
+            scale: true,
+            boundaryGap: false,
+            axisLine: {onZero: false},
+            splitLine: {show: false},
+            splitNumber: 20,
+            min: 'dataMin',
+            max: 'dataMax'
+        },
+        yAxis: {
+            scale: true,
+            splitArea: {
+                show: true
+            }
+        },
+        dataZoom: [
+            {
+                type: 'inside',
+                start: 50,
+                end: 100
+            },
+            {
+                show: true,
+                type: 'slider',
+                top: '90%',
+                start: 50,
+                end: 100
+            }
+        ],
+        series: [
+            {
+                name: '日K',
+                type: 'candlestick',
+                data: data_russia.values,
+                itemStyle: {
+                    color: upColor,
+                    color0: downColor,
+                    borderColor: upBorderColor,
+                    borderColor0: downBorderColor
+                },
+            },
+            {
+                name: 'MA5',
+                type: 'line',
+                data: calculateMA(data_russia, 5),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+            {
+                name: 'MA10',
+                type: 'line',
+                data: calculateMA(data_russia, 10),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+            {
+                name: 'MA20',
+                type: 'line',
+                data: calculateMA(data_russia, 20),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+            {
+                name: 'MA30',
+                type: 'line',
+                data: calculateMA(data_russia, 30),
+                smooth: true,
+                lineStyle: {
+                    opacity: 0.5
+                }
+            },
+
+        ]
+    };
+
+    ;
+    if (option_russia && typeof option_russia === "object") {
+        myChart_russia.setOption(option_russia, true);
+    }
+
+</script>
+
+{% endblock %}

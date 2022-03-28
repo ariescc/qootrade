@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block industryMoneyFlow %}
+
+<section class="content">
+    <div id="container" style="height: 80%; width: 100%; float: center"></div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+    <script type="text/javascript">
+        var dom = document.getElementById("container");
+        var myChart = echarts.init(dom);
+        var app = {};
+        var timeline = {{ timeline | safe }};
+        var data1 = {{ data | safe}};
+        var xAxis = {{xAxis | safe}}
+        // console.log(timeline);
+        // console.log(data1);
+        option = {  //option图元数据
+        baseOption: {
+            timeline: {
+                axisType: 'category',
+                // realtime: false,
+                // loop: false,
+                autoPlay: true,
+                // currentIndex: 2,
+                playInterval: 1000,
+                // controlStyle: {
+                //     position: 'left'
+                // },
+                data: [],
+                // label: {
+                //     formatter : function(s) {
+                //         return (new Date(s)).getDay();
+                //     }
+                // }
+            },
+            title: [{
+                text: [],
+                textAlign: 'center',
+                left: '58%',
+                top: '70%',
+                textStyle: {
+                    fontSize: 80,
+                    color: 'rgba(255, 255, 255, 0.7)'
+                }
+            }, {
+                text: '行业资金日流动',
+                left: 'center',
+                top: 10,
+                textStyle: {
+                    color: '#aaa',
+                    fontWeight: 'normal',
+                    fontSize: 20
+                }
+            }],
+            xAxis: [
+                {
+                    type: 'category',
+                    data: [],
+                    "axisLabel":{
+                        interval: 0
+                    }
+                }
+            ],
+            yAxis: {
+                type: 'value',
+                name: '净流入（亿元）',
+                position: 'top',
+                splitLine: {
+                    lineStyle: {
+                        type: 'dashed'
+                    }
+                },
+                min:-100,
+                max:100,
+                interval:40
+            },  
+            grid: {
+                top: 100,
+                containLabel: true,
+                left: 30,
+                right: 110
+            },
+            tooltip: {
+                padding: 5,
+                backgroundColor: '#222',
+                borderColor: '#777',
+                borderWidth: 1,
+                formatter: function (params) {
+                    console.log(params);
+                    return  params.name + '净流入：' + '<br>' + params.value + '亿元';
+                }
+            },
+           visualMap: {
+               min: -100,
+               max: 100,
+               // text: ['Up', 'Down'],
+               show: true,
+               // calculable: true,
+               splitNumber: 2,
+               color: ['red', 'green']
+                   },
+            series: [
+                {
+                    type: 'bar',
+                    data: [],
+                }
+            ],
+            animationDurationUpdate: 1000,
+            animationEasingUpdate: 'quinticInOut',
+        },
+        options: []
+    };
+    option.baseOption.series[0].data = data1['2020/3/1'];
+    option.baseOption.xAxis[0].data = xAxis;
+
+    for(var i = 0; i < timeline.length; i++){
+        key = timeline[i]
+        option.baseOption.timeline.data.push(key)
+        var series_ = {
+            title:{
+                show: false,
+                text: key
+            },
+            series: {
+                name: key,
+                type: 'bar',
+                data: data1[key],
+            }
+        };
+        option['options'].push(series_);
+    }
+    // console.log(option);
+    // console.log(xAxis);
+    myChart.setOption(option);
+
+    </script>
+</section>
+
+{% endblock %}

@@ -1,0 +1,332 @@
+{% extends "base.html" %}
+{% block globaldata %}
+<section class="content">
+
+       <script src='/static/libs/jquery.js'></script>
+	   <script src='/static/libs/echarts/echarts.js'></script>
+<!--	   <script src='/static/index.js'></script>-->
+       <div id="worldMap" style="width:100%;height:80%;"></div>
+       <script>
+
+        var mdata = {{ data | safe }};
+        console.log(mdata[0]);
+        var xAxis = {{ xAxis | safe }};
+        var d = 0;
+        let myCharts = echarts.init(document.getElementById('worldMap'));
+
+        var itemStyle = {
+            opacity: 0.8,
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowOffsetY: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+        };
+
+	   $.get('/static/worldmap/world.json',function(data){
+            echarts.registerMap('world', data, {});
+            var mapData = [ // 地图数据
+                {name: '中国', value: 19},
+                {name: '美国', value: 22},
+                {name: '巴西', value: 22},
+                {name: '日本', value: 33},
+                {name: '意大利', value: 23},
+                {name: '澳大利亚', value: 24},
+                {name: '英国', value: 44},
+                {name: '法国', value: 55},
+                {name: '德国', value: 66},
+                {name: '韩国', value: 22},
+                {name: '俄罗斯', value: 19},
+                {name: '加拿大', value: 31}
+            ];
+
+		      var sanData = [ // 散点数据
+			       {name: '中国', value: 19},
+			       {name: '美国', value: 14},
+			       {name: '日本', value: 19},
+			       {name: '澳大利亚', value: 12},
+			       {name: '法国', value: 19},
+			       {name: '加拿大', value: 15}
+		      ];
+
+               console.log(sanData);
+		      var geoCoordMap = { // 散点坐标
+			       '巴西': [-47.55,-15.47],
+                   '澳大利亚': [149.08,-35.15],
+                   '加拿大':  [-75.42,45.27],
+                   '中国': [116.20,39.55],
+                   '英国': [-0.05,51.36],
+                   '法国': [2.20,48.50],
+                   '德国': [13.25,52.30],
+                   '意大利': [12.29,41.54],
+                   '日本': [138.252924, 36.204824],
+                   '韩国': [127.766922, 35.907757],
+                   '美国': [-95.712891, 37.09024],
+                   '俄罗斯': [105.318756, 61.52401],
+                   '印度': [78.96288, 20.593684],
+                   '南非': [22.937506, -30.559482],
+                   '印度尼西亚': [106.515414,-6.103040]
+		      };
+
+		      var convertData = function (data) { // 处理数据函数
+                   var res = [];
+                   for (var i = 0; i < data.length; i++) {
+                       var geoCoord = geoCoordMap[data[i].name];
+                       if (geoCoord) {
+                           res.push({
+                               name: data[i].name,
+                               value: geoCoord.concat(data[i].value)
+                           });
+                       }
+                   }
+                   return res;
+              };
+
+               let option = { // echarts 配置
+                   baseOption: {
+                        backgroundColor: '#000',
+                        timeline: {
+                            axisType: 'category',
+                            orient: 'vertical',
+                            autoPlay: true,
+                            inverse: true,
+                            playInterval: 5000,
+                            left: null,
+                            right: 0,
+                            top: 20,
+                            bottom: 20,
+                            width: 55,
+                            height: null,
+                            label: {
+                                color: 'pink'
+                            },
+                            symbol: 'none',
+                            lineStyle: {
+                                color: '#555'
+                            },
+                            checkpointStyle: {
+                                color: '#bbb',
+                                borderColor: '#777',
+                                borderWidth: 2
+                            },
+                            controlStyle: {
+                                showNextBtn: false,
+                                showPrevBtn: false,
+                                color: '#666',
+                                borderColor: '#666'
+                            },
+                            emphasis: {
+                                label: {
+                                    color: '#fff'
+                                },
+                                controlStyle: {
+                                    color: '#aaa',
+                                    borderColor: '#aaa'
+                                }
+                            },
+                            data: []
+                        },
+                       tooltip: {
+                           trigger: 'item'
+                       },
+                       visualMap: {
+                           min: -3,
+                           max: 3,
+                           text: ['Up', 'Down'],
+                           textStyle: {
+                                color: 'white'
+                           },
+                           show: true,
+                           calculable: true,
+                           color: ['red', 'yellow', 'green']
+                       },
+                       geo: { // 地图配置
+                           //show: true,
+                           map: 'world',
+                           label: {
+                               normal: {
+                                   show: false
+                               },
+                               emphasis: {
+                                   show: false
+                               }
+                           },
+                           roam: false,
+                           itemStyle: {
+                               normal: {
+                                   areaColor: '#04284e',
+                                   borderColor: '#3B5077'
+                               },
+                               emphasis: {
+                                   areaColor: '#2B91B7'
+                               }
+                           },
+                           zoom: 1.2
+                       },
+                       series: [{ // 散点配置
+                           name: '跌涨幅',
+                           type: 'effectScatter',
+                           coordinateSystem: 'geo',
+                           data: convertData(mdata[0]),
+                           symbolSize: function (val) {
+                               return val[2];
+                           },
+                           //showEffectOn: 'emphasis',
+                           rippleEffect: {
+                               period: 4,
+                               brushType: 'stroke',
+                               scale: 4
+                           },
+                           //hoverAnimation: true,
+                           label: {
+                               normal: {
+                                   formatter: '{b}:{c}',
+                                   position: 'right',
+                                   show: true,
+                                   offset: [5, 0]
+                               },
+                               emphasis: {
+                                   show: true
+                               }
+                           },
+                           itemStyle: {
+                               normal: {
+                                   color: '#ff8003'
+                               }
+                           },
+                           zlevel: 2,
+                           symbol: "circle",
+                            symbolSize: function (val) {
+                                var  level = 0 ;
+                                var state= Math.floor(val[2]/5000) ;
+                                switch (state)
+                                {
+                                    case 0: level=0; break;
+                                    case 1: level=1; break;
+                                    case 2: level=2; break;
+                                    case 3: level=3; break;
+                                    case 4: level=4; break;
+                                    case 5: level=5; break;
+                                    case 6: level=6; break;
+                                    case 7: level=7; break;
+                                    case 8: level=8; break;
+                                    case 9: level=9; break;
+                                    default: level=10;
+                                }
+                                return 5 + level; //圆环大小
+                            },
+                       }, { // 地图配置
+                           name: '跌涨幅',
+                           type: 'map',
+                           mapType: 'world', // 自定义扩展图表类型
+                           geoIndex: 0,
+                           // aspectScale: 0.75, // 长宽比
+                           itemStyle: itemStyle,
+                           data: mdata[0],
+                            label: {
+                               normal: {
+                                   formatter: '{b}:{c}',
+                                   position: 'right',
+                                   show: true,
+                                   offset: [5, 0]
+                               },
+                               emphasis: {
+                                   show: true
+                               }
+                           },
+                       }]
+                   },
+                   options: []
+
+               };
+
+               // 按日期显示
+               for (var d = 0; d < xAxis.length; d++) {
+                    option.baseOption.timeline.data.push(xAxis[d]);
+                    option.options.push({
+                        title: {
+                            show: true,
+                            'text': xAxis[d] + '全球股市涨跌情况',
+                            textStyle: {
+                                color: 'white'
+                            }
+                        },
+                        series: [{ // 散点配置
+                           name: '跌涨幅',
+                           type: 'effectScatter',
+                           coordinateSystem: 'geo',
+                           data: convertData(mdata[d]),
+                           symbolSize: function (val) {
+                               return val[2];
+                           },
+                           //showEffectOn: 'emphasis',
+                           rippleEffect: {
+                               period: 4,
+                               brushType: 'stroke',
+                               scale: 4
+                           },
+                           //hoverAnimation: true,
+                           label: {
+                               normal: {
+                                   formatter: '{b}',
+                                   position: 'right',
+                                   show: true,
+                                   offset: [5, 0]
+                               },
+                               emphasis: {
+                                   show: true
+                               }
+                           },
+                           itemStyle: {
+                               normal: {
+                                   color: '#ff8003'
+                               }
+                           },
+                           zlevel: 2,
+                           symbol: "circle",
+                            symbolSize: function (val) {
+                                var  level = 0 ;
+                                var state= Math.floor(val[2]/5000) ;
+                                switch (state)
+                                {
+                                    case 0: level=0; break;
+                                    case 1: level=1; break;
+                                    case 2: level=2; break;
+                                    case 3: level=3; break;
+                                    case 4: level=4; break;
+                                    case 5: level=5; break;
+                                    case 6: level=6; break;
+                                    case 7: level=7; break;
+                                    case 8: level=8; break;
+                                    case 9: level=9; break;
+                                    default: level=10;
+                                }
+                                return 5 + level; //圆环大小
+                            },
+                       }, { // 地图配置
+                           name: '跌涨幅',
+                           type: 'map',
+                           mapType: 'world', // 自定义扩展图表类型
+                           geoIndex: 0,
+                           // aspectScale: 0.75, // 长宽比
+                           itemStyle: itemStyle,
+                           data: mdata[d],
+                            label: {
+                               normal: {
+                                   formatter: '{b}:{c}',
+                                   position: 'right',
+                                   show: true,
+                                   offset: [5, 0]
+                               },
+                               emphasis: {
+                                   show: true
+                               }
+                           },
+                       }]
+                    })
+               }
+
+               myCharts.setOption(option);
+           });
+       </script>
+</section>
+{% endblock %}

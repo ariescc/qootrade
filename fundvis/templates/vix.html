@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block vix %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">VIX & AU</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div id="container" style="min-height: 250px; height: 600px; max-height: 600px; max-width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card card-danger">
+                    <div class="card-header">
+                        <h3 class="card-title">美国失业率</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <div id="container1" style="min-height: 250px; height: 600px; max-height: 600px; max-width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+    <script type="text/javascript">
+        var dom = document.getElementById("container");
+        var myChart = echarts.init(dom);
+        var app = {};
+        // vix 数据
+        var xdata = {{ xdata | safe }};
+        var vals = {{ vals | safe }};
+        // au etf 数据
+        var xAu = {{ xAu | safe }};
+        var valAu = {{ valAu | safe }};
+        console.log(xAu);
+        console.log(valAu);
+        console.log(xdata);
+        console.log(vals);
+        option = null;
+        option = {
+            title: {
+                    text: 'VIX & AU ETF',
+                    textStyle: {
+                        fontWeight: 'bold'
+                    }
+            },
+            tooltip: {
+                 trigger: 'axis',
+                 axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                     type: 'line'        // 默认为直线，可选为：'line' | 'shadow'
+                 }
+            },
+            legend: {
+               data: ['黄金ETF', 'VIX恐慌指数']
+            },
+            dataZoom: [
+                    {
+                        id: 'dataZoomX',
+                        type: 'slider',
+                        xAxisIndex: [0],
+                        filterMode: 'filter'
+                    },
+                    {
+                        id: 'dataZoomY',
+                        type: 'slider',
+                        yAxisIndex: [0],
+                        filterMode: 'empty'
+                    }
+            ],
+            xAxis: {
+                type: 'category',
+                data: xdata
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+            {
+                data: vals,
+                name: '黄金ETF',
+                type: 'line',
+                smooth: true
+            },
+            {
+                data: valAu,
+                name: 'VIX恐慌指数',
+                type: 'line',
+                smooth: true
+            }]
+        };
+        ;
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+
+        var dom1 = document.getElementById("container1");
+        var myChart1 = echarts.init(dom1);
+        var app1 = {};
+        var data1 = {{ data | safe }};
+        console.log(data1);
+        option1 = null;
+        option1 = {
+            tooltip: {
+                 trigger: 'axis',
+                 axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                     type: 'line'        // 默认为直线，可选为：'line' | 'shadow'
+                 }
+            },
+            xAxis: {
+                type: 'category',
+                data: ["2018\/09","2018\/10","2018\/11","2018\/12","2019\/01","2019\/02","2019\/03","2019\/04","2019\/05","2019\/06","2019\/07","2019\/08","2019\/09","2019\/10","2019\/11","2019\/12","2020\/01","2020\/02","2020\/03","2020\/04"]
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: data1,
+                type: 'line',
+                smooth: true,
+                markPoint: {
+                    data: [
+                        {name: '拐点', value: '疫情爆发', xAxis: 18, yAxis: 5}
+                    ],
+
+                }
+            }]
+        };
+        ;
+        if (option1 && typeof option1 === "object") {
+            myChart1.setOption(option1, true);
+        }
+   </script>
+</section>
+{% endblock %}

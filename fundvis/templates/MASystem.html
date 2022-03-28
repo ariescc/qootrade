@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+
+{% block masystem %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                {% for a in fund_pool_left %}
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <div class="row">
+                                <div>
+                                    <svg class="icon" aria-hidden="true">
+                                        <use xlink:href="#icon-zhongguo"></use>
+                                    </svg>
+                                </div>
+                                <div class="col-md-10">
+                                    <h3 class="card-title">{{ a.name }}({{ a.code }})</h3>
+                                </div>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart">
+                                <div id={{ a.container }} style="min-height: 250px; height: 600px; max-height: 600px; max-width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-6">
+                {% for a in fund_pool_right %}
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <div class="row">
+                                <div>
+                                    <svg class="icon" aria-hidden="true">
+                                        <use xlink:href="#icon-meiguo"></use>
+                                    </svg>
+                                </div>
+                                <div class="col-md-10">
+                                    <h3 class="card-title">{{ a.name }}</h3>
+                                </div>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart">
+                                <div id={{ a.container }} style="min-height: 250px; height: 600px; max-height: 600px; max-width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+<script>
+    var data = {{ data | safe }};
+    var fund_pool = {{ fund_pool | safe   }};
+    console.log(data);
+
+    function splitData(rawData) {
+        var categoryData = [];
+        var values = []
+        for (var i = 0; i < rawData.length; i++) {
+            categoryData.push(rawData[i].splice(0, 1)[0]);
+            values.push(rawData[i])
+        }
+        return {
+            categoryData: categoryData,
+            values: values
+        };
+    }
+
+    function calculateMA(data0,dayCount) {
+        var result = [];
+        for (var i = 0, len = data0.values.length; i < len; i++) {
+            if (i < dayCount) {
+                result.push('-');
+                continue;
+            }
+            var sum = 0;
+            for (var j = 0; j < dayCount; j++) {
+                sum += data0.values[i - j][1];
+            }
+            result.push(sum / dayCount);
+        }
+        return result;
+    }
+
+    function getPrice(data0) {
+        var res = [];
+        for (var i = 0, len = data0.values.length; i < len; i++) {
+            res.push(data0.values[i][1]);
+        }
+        return res;
+    }
+
+    // ------------------------------------------------------------------------------------------------
+
+    for(var i = 0; i < fund_pool.length; i++) {
+        console.log(fund_pool[i]);
+        console.log(fund_pool[i]['code']);
+        var dom = document.getElementById(fund_pool[i]['container']);
+        console.log(dom);
+        var myChart = echarts.init(dom);
+        console.log(myChart);
+        var app = {};
+        var option = null;
+
+        console.log(data[fund_pool[0]['code']]);
+
+        var dt = splitData(data[fund_pool[i]['code']]);
+        console.log("dt", dt);
+        //console.log(item['code'], dt);
+
+        option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross'
+                }
+            },
+            legend: {
+                data: ['price', 'MA5', 'MA10', 'MA20', 'MA30', 'MA60', 'MA120']
+            },
+            grid: {
+                left: '10%',
+                right: '10%',
+                bottom: '15%'
+            },
+            xAxis: {
+                type: 'category',
+                data: dt.categoryData,
+                scale: true,
+                boundaryGap: false,
+                axisLine: {onZero: false},
+                splitLine: {show: false},
+                splitNumber: 20,
+                min: 'dataMin',
+                max: 'dataMax'
+            },
+            yAxis: {
+                scale: true,
+                splitArea: {
+                    show: true
+                }
+            },
+            dataZoom: [
+                {
+                    type: 'inside',
+                    start: 50,
+                    end: 100
+                },
+                {
+                    show: true,
+                    type: 'slider',
+                    top: '90%',
+                    start: 50,
+                    end: 100
+                }
+            ],
+            series: [
+                {
+                    name: 'price',
+                    type: 'line',
+                    data: getPrice(dt),
+                    smooth: true,
+                    lineStyle: {
+                        opacity: 0.5
+                    }
+                },
+                {
+                    name: 'MA5',
+                    type: 'line',
+                    data: calculateMA(dt, 5),
+                    smooth: true,
+                    lineStyle: {
+                        opacity: 0.5
+                    }
+                },
+                {
+                    name: 'MA10',
+                    type: 'line',
+                    data: calculateMA(dt, 10),
+                    smooth: true,
+                    lineStyle: {
+                        opacity: 0.5
+                    }
+                },
+                {
+                    name: 'MA20',
+                    type: 'line',
+                    data: calculateMA(dt, 20),
+                    smooth: true,
+                    lineStyle: {
+                        opacity: 0.5
+                    }
+                },
+                {
+                    name: 'MA30',
+                    type: 'line',
+                    data: calculateMA(dt, 30),
+                    smooth: true,
+                    lineStyle: {
+                        opacity: 0.5
+                    }
+                },
+                {
+                    name: 'MA60',
+                    type: 'line',
+                    data: calculateMA(dt, 60),
+                    smooth: true,
+                    lineStyle: {
+                        opacity: 0.5
+                    }
+                },
+                {
+                    name: 'MA120',
+                    type: 'line',
+                    data: calculateMA(dt, 120),
+                    smooth: true,
+                    lineStyle: {
+                        opacity: 0.5
+                    }
+                },
+            ]
+        };
+
+        ;
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    }
+
+</script>
+{% endblock %}

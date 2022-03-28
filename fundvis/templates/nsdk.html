@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block nsdk %}
+
+<section class="content">
+    <div id="container" style="height: 80%; width: 100%; float: center"></div>
+    <script type="text/javascript" src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+    <script type="text/javascript">
+        var dom = document.getElementById("container");
+        var myChart = echarts.init(dom);
+        var app = {};
+        var data1 = {{ data | safe}};
+        var xAxis = {{ xAxis | safe}};
+
+        option = {
+            title: [{
+                text: '纳斯达克指数',
+                left: 'center',
+                top: 10,
+                textStyle: {
+                    color: '#aaa',
+                    fontWeight: 'normal',
+                    fontSize: 20
+                }
+            }],
+            xAxis: {
+                type: 'category',
+                data: xAxis,
+                "axisLabel":{
+                    interval: 0
+                },
+                name: '日期',
+                position: 'bottom',
+                splitLine: {
+                    lineStyle: {
+                        type: 'dashed'
+                    }
+                },
+            },
+            yAxis: {
+                type: 'value',
+                name: '每日收盘',
+                position: 'top',
+                min:6000,
+                splitLine: {
+                    lineStyle: {
+                        type: 'dashed'
+                    }
+                },
+            },
+            tooltip: {
+                padding: 5,
+                backgroundColor: '#222',
+                borderColor: '#777',
+                borderWidth: 1,
+                formatter: function (params) {
+                    return  params.name + '指数：' + '<br>' + params.value;
+                }
+            },
+            series: [{
+                data: data1,
+                type: 'line',
+                markPoint:{
+                    data:[
+                        {coord:[16, 8700],name:'3.3', value: '美联储正在降息，但必\n须进一步放宽，最重要\n的是，要与其他国家竞\n争对手保持一致。我们\n不是在平地上比赛。对\n美国不公平。现在是美\n联储领导（经济走向）\n的时候了。更多的宽松\n和降息！', symbolSize: [200,200],label:{fontSize:10}},
+                        {coord:[20, 7900],name:'3.9', value: '\n\n\n\n\n\n\n\n沙特阿拉伯和俄罗斯在\n石油价格和产量问题上\n争论不休。另外，还\n有假消息，是股市下跌\n的原因！', symbolSize: [200,200],label:{fontSize:10},symbolRotate:180},
+                        {coord:[23, 8000],name:'3.12', value: '我国历史上最低的失业人数。\n有史以来最好的就业数字，现在\n有近1.6亿人在工作。投票\n给共和党，除非你想看到\n这些数字被抹去！', symbolSize: [200,200],label:{fontSize:10}},
+                        {coord:[25, 7000],name:'3.13', value: '\n\n\n\n\n\n\n\n昨天是史上\n最大幅度的股\n市上涨！', symbolSize: [200,200],label:{fontSize:10},symbolRotate:180},
+                        //{coord:[25, 7000],name:'3.16', value: '……美国从来没有为这件事\n做好准备，只要看看H1N1猪流感的\n灾难（拜登负责，1.7万人丧生，反应时间\n很晚），但很快就会发生。尽早关闭\n中国和其他国家边界的伟大决\n定。救了很多人的命！', symbolSize: [200,200], symbolRotate:90,label:{fontSize:10}},
+                        {coord:[28, 7300],name:'3.19', value: '对于那些因为重要和必要\n的遏制政策而失业的人来说，\n比如关闭酒店、酒吧和餐馆，\n钱很快就会来找你。中国\n病毒的袭击不是你的错！\n会比以前更强大！', symbolSize: [200,200],label:{fontSize:10}},
+                        {coord:[32, 7500],name:'3.25', value: '\n\n\n\n\n\n\n\n\n国会今天必须批准这项\n（刺激计划）协议，而\n不是扯一些废话。时间越\n长，我们的经济就越\n难启动。我们的工人\n会受伤！', symbolSize: [200,200], label:{fontSize:10}, symbolRotate:180},
+
+                        ]
+                },
+                //让每个点显示数值
+
+                itemStyle:{
+
+                    normal:{
+                        label:{
+                            show:function(param){
+                                if(param.name == '3.9' || param.name == '3.12' || param.name == '3.16')
+                                     return true;
+                                else
+                                    return false;
+
+                            },
+
+                            fontSize:11,
+                            formatter:function (param) { //拐点文字回调
+                                if(param.name == '3.9')
+                                     return '第一次熔断';
+                                if(param.name == '3.12')
+                                    return '第二次熔断'
+                                if(param.name == '3.16')
+                                    return '第三次熔断'
+                                return '';
+
+                            },
+                            textStyle:{
+                                color: 'rgb(179,64,56)',
+                                top: 1000
+
+                            },
+                            color:function (param) { //拐点颜色回调
+                                if(param.name == '3.9' || param.name == '3.12' || param.name == '3.16')
+                                    return 'green';
+                                return 'red';
+
+                        }
+                    }
+                }
+           }
+            }]
+        };
+        myChart.setOption(option);
+
+    </script>
+</section>
+
+{% endblock %}
